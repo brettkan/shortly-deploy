@@ -10,6 +10,9 @@ Icon
 # npm package modules
 node_modules/
 
+# distribution files
+public/dist/
+
 
 # Floobits
 .floo
