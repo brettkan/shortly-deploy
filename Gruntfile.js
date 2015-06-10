@@ -2,7 +2,15 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        src: ['public/**/*.js'],
+        dest: 'dist/<%= pkg.name %>.js'
+      }
     },
 
     mochaTest: {
@@ -21,12 +29,18 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
     },
 
     jshint: {
-      files: [
-        // Add filespec list here
-      ],
+      files: ['Gruntfile.js', 'public/**/*.js', 'test/**/*.js', 'server-config.js', 'server.js'],
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
@@ -38,6 +52,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'public',
+          src: ['*.css', '!*.min.css'],
+          dest: 'public/dist',
+          ext: '.min.css'
+        }]
+      }
     },
 
     watch: {
@@ -59,8 +82,13 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        command: [
+          'azure site scale mode standard shortlybk',
+          // Will need authentication for git
+          'git push azure master'
+        ]
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -90,10 +118,15 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('test', [
+    'jshint',
     'mochaTest'
   ]);
 
   grunt.registerTask('build', [
+    'jshint',
+    'concat',
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
