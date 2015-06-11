@@ -3,8 +3,9 @@ var mongoose = require('mongoose');
 // may need to change url!!
 var db = mongoose.connect('mongodb://localhost:27017/chat', function(err) {
   if (err) {
-    console.log('Connected to mongo!');
+    return console.log('Failed to connect to mongo');
   }
+  console.log('Connected to mongo!');
 });
 
 var Schema = mongoose.Schema;
@@ -22,4 +23,6 @@ var UserSchema = new Schema({
   password: String
 });
 
-module.exports = db;
+module.exports.UrlSchema = UrlSchema;
+module.exports.UserSchema = UserSchema;
+
