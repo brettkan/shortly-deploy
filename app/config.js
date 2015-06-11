@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var connectionUrl = process.MONGO || 'mongodb://localhost:27017/chat';
+var connectionUrl = process.env.CUSTOMCONNSTR_MONGOLAB_URI || 'mongodb://localhost:27017/chat';
 
 var db = mongoose.connect(connectionUrl, function(err) {
   if (err) {
