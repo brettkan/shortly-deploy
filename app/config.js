@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
-// may need to change url!!
-var db = mongoose.connect('mongodb://localhost:27017/chat', function(err) {
+var connectionUrl = process.MONGO || 'mongodb://localhost:27017/chat';
+
+var db = mongoose.connect(connectionUrl, function(err) {
   if (err) {
     return console.log('Failed to connect to mongo');
   }
