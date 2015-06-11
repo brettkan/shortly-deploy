@@ -15,7 +15,7 @@ var UrlSchema = new Schema({
   base_url: String,
   code: String,
   title: String,
-  visits: Number
+  visits: {type: Number, default: 0}
 });
 
 var UserSchema = new Schema({

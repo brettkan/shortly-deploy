@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User', db.UserSchema);
 
 
-
 // var db = require('../config');
 // var bcrypt = require('bcrypt-nodejs');
 // var Promise = require('bluebird');
