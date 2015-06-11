@@ -83,10 +83,11 @@ module.exports = function(grunt) {
     shell: {
       prodServer: {
         command: [
-          'azure site scale mode standard shortlybk',
-          // Will need authentication for git
-          'git push azure master'
-        ]
+          // 'azure site scale mode standard shortlybk',
+          'git push azure master',
+          'azure site browse'
+          // 'azure site scale mode free shortlybk'
+        ].join('&&')
       }
     }
   });
@@ -113,6 +114,19 @@ module.exports = function(grunt) {
     grunt.task.run([ 'watch' ]);
   });
 
+  grunt.registerTask('server-prod', function (target) {
+    // Running nodejs in a different process and displaying output on the main console
+    var prodLog = grunt.util.spawn({
+         cmd: 'grunt',
+         grunt: true,
+         args: 'shell'
+    });
+    prodLog.stdout.pipe(process.stdout);
+    prodLog.stderr.pipe(process.stderr);
+
+    grunt.task.run([ 'watch' ]);
+  });
+
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
@@ -132,6 +146,7 @@ module.exports = function(grunt) {
   grunt.registerTask('upload', function(n) {
     if(grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run([ 'server-prod' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
