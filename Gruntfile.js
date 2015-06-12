@@ -119,19 +119,6 @@ module.exports = function(grunt) {
     grunt.task.run([ 'watch' ]);
   });
 
-  grunt.registerTask('server-prod', function (target) {
-    // Running nodejs in a different process and displaying output on the main console
-    var prodLog = grunt.util.spawn({
-         cmd: 'grunt',
-         grunt: true,
-         args: 'shell'
-    });
-    prodLog.stdout.pipe(process.stdout);
-    prodLog.stderr.pipe(process.stderr);
-
-    grunt.task.run([ 'watch' ]);
-  });
-
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
